@@ -11,16 +11,19 @@ func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello Foo!")
 }
 
+func barHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hello Bar!")
+}
+
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { // 루트 주소
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { // 루트 주소
 		fmt.Fprint(w, "Hello World")
 	})
 
-	http.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello Bar!")
-	})
+	mux.HandleFunc("/bar", barHandler)
 
-	http.Handle("/foo", &fooHandler{})
+	mux.Handle("/foo", &fooHandler{})
 
-	http.ListenAndServe(":3000", nil)
+	http.ListenAndServe(":3000", mux)
 }
