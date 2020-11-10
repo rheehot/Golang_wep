@@ -12,12 +12,11 @@ func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func barHandler(w http.ResponseWriter, r *http.Request) {
-	// URL에서 argument를 뽑아냄
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "world"
 	}
-	fmt.Fprintf(w, "Hello %s!", name) // 그 값을 출력
+	fmt.Fprintf(w, "Hello %s!", name)
 }
 
 func main() {
