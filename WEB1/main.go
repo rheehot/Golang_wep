@@ -12,12 +12,17 @@ func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func barHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello Bar!")
+	// URL에서 argument를 뽑아냄
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		name = "world"
+	}
+	fmt.Fprintf(w, "Hello %s!", name) // 그 값을 출력
 }
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { // 루트 주소
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello World")
 	})
 
