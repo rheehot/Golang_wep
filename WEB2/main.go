@@ -27,7 +27,8 @@ func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	user.CreatedAt = time.Now()
 
 	data, _ := json.Marshal(user) // 인터페이스를 받아서 json형태로 바꿔주는 메소드(byte와 err를 리턴함)
-	w.WriteHeader(http.StatusOK)
+	w.Header().Add("content-type", "application/json")
+	w.WriteHeader(http.StatusCreated)
 	fmt.Fprint(w, string(data))
 }
 
